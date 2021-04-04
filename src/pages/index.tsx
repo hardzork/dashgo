@@ -20,10 +20,9 @@ export default function SignIn() {
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm({ resolver: yupResolver(signInFormSchema) });
-  console.log(errors);
   const handleSignIn: SubmitHandler<SignInFormData> = async (data) => {
     await new Promise((resolve) => setTimeout(resolve, 2000));
-    console.log(data);
+    // console.log(data);
   };
   return (
     <Flex w="100vw" h="100vh" align="center" justify="center">
