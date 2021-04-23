@@ -6,7 +6,6 @@ import {
   ActiveModelSerializer,
 } from "miragejs";
 import faker from "faker";
-import { isBefore } from "date-fns";
 
 type User = {
   name: string;
@@ -36,7 +35,7 @@ export function makeServer() {
       }),
     },
     seeds(server) {
-      server.createList("user", 200);
+      server.createList("user", 5);
     },
     routes() {
       this.namespace = "api";
@@ -46,9 +45,10 @@ export function makeServer() {
         const total = schema.all("user").length;
         const pageStart = (Number(page) - 1) * Number(per_page);
         const pageEnd = pageStart + Number(per_page);
-        const users = this.serialize(schema.all("user"))
-          .users.sort((a, b) => isBefore(a.createdAt, b.createdAt))
-          .slice(pageStart, pageEnd);
+        const users = this.serialize(schema.all("user")).users.slice(
+          pageStart,
+          pageEnd
+        );
         return new Response(200, { "x-total-count": String(total) }, { users });
       });
       this.get("/users/:id");

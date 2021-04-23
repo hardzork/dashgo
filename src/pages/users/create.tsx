@@ -52,6 +52,7 @@ export default function CreateUser() {
     {
       onSuccess: () => {
         queryClient.invalidateQueries("users");
+        queryClient.invalidateQueries("user");
       },
     }
   );
@@ -65,8 +66,6 @@ export default function CreateUser() {
   const handleCreateUser: SubmitHandler<CreateUserFormData> = async (data) => {
     await createUser.mutateAsync(data);
     router.push("/users");
-    // await new Promise((resolve) => setTimeout(resolve, 2000));
-    // console.log(data);
   };
   return (
     <Box>

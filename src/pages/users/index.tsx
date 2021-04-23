@@ -16,6 +16,7 @@ import {
   Tr,
   useBreakpointValue,
 } from "@chakra-ui/react";
+import { GetServerSideProps } from "next";
 import NextLink from "next/link";
 import { useState } from "react";
 import { RiAddLine, RiPencilLine } from "react-icons/ri";
@@ -23,11 +24,27 @@ import { Header } from "../../components/Header";
 import { Pagination } from "../../components/Pagination";
 import { Sidebar } from "../../components/Sidebar";
 import { api } from "../../services/axios/api";
-import { useUsers } from "../../services/hooks/useUsers";
+import { getUsers, useUsers } from "../../services/hooks/useUsers";
 import { queryClient } from "../../services/react-query/queryClient";
+
+type User = {
+  id: string;
+  name: string;
+  email: string;
+  created_at: string;
+  createdAt: string;
+};
+
+interface UserListProps {
+  users?: User[];
+  totalCount?: number;
+}
 
 export default function UserList() {
   const [page, setPage] = useState(1);
+  // const { data, isLoading, error, isFetching } = useUsers(page, {
+  //   initialData: { users, totalCount },
+  // });
   const { data, isLoading, error, isFetching } = useUsers(page);
 
   const isWideVersion = useBreakpointValue({ base: false, lg: true });
@@ -140,3 +157,13 @@ export default function UserList() {
     </Box>
   );
 }
+
+// export const getServerSideProps: GetServerSideProps = async () => {
+//   const { users, totalCount } = await getUsers(1);
+//   return {
+//     props: {
+//       users,
+//       totalCount,
+//     },
+//   };
+// };
